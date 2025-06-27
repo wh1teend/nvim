@@ -1,4 +1,4 @@
-# Neovim Configuration based on NvChad
+# Neovim configuration based on NvChad
 
 This repository contains my personal setup for Neovim built on top of [NvChad](https://github.com/NvChad/NvChad). All NvChad modules are loaded as a plugin through [lazy.nvim](https://github.com/folke/lazy.nvim) and extended with additional plugins and options.
 
