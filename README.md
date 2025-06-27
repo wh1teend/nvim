@@ -19,7 +19,7 @@ This repository contains my personal setup for Neovim built on top of [NvChad](h
 1. Remove or move your current `~/.config/nvim` directory.
 2. Clone this repository into `~/.config/nvim`:
    ```bash
-   git clone https://github.com/<your_account>/nvim ~/.config/nvim
+   git clone https://github.com/wh1teend/nvim ~/.config/nvim
    ```
 3. Start Neovim. On the first launch `lazy.nvim` will automatically install all required plugins.
 
