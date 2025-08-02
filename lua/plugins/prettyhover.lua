@@ -1,5 +1,9 @@
 return {
   "Fildo7525/pretty_hover",
-  keys = { "<leader>k" },
-  config = true,
+  event = "LspAttach",
+  init = function()
+    vim.keymap.set("n", "K", function()
+      require("pretty_hover").hover()
+    end)
+  end,
 }

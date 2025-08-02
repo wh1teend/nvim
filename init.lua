@@ -23,6 +23,7 @@ require("lazy").setup({
   },
 
   { import = "plugins" },
+  { import = "plugins.tools" },
 }, lazy_config)
 
 -- load theme
@@ -31,6 +32,7 @@ dofile(vim.g.base46_cache .. "statusline")
 
 require "options"
 require "autocmds"
+require "commands"
 
 require "tools.autosave"
 require "tools.showos"

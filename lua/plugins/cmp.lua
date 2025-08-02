@@ -22,6 +22,10 @@ return {
       ghost_text = false,
     }
 
+    require("cmp").config.formatting = {
+      format = require("tailwindcss-colorizer-cmp").formatter,
+    }
+
     require("cmp").setup(opts)
   end,
 }

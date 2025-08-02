@@ -1,3 +1,5 @@
+local vue = require "configs.lsp.vue"
+
 return {
   lsp = {
     "html",
@@ -7,6 +9,20 @@ return {
     "jsonls",
     "prismals",
     "intelephense",
+    "vtsls",
+    "vue_ls", -- :MasonInstall vue-language-server
+
+    configs = {
+      {
+        "vtsls",
+        vue.vtsls,
+      },
+
+      {
+        "vue_ls",
+        vue.vue_ls,
+      },
+    },
   },
 
   highlighting = {
@@ -20,6 +36,7 @@ return {
     "python",
     "typescript",
     "javascript",
+    "prisma",
   },
 
   formatters = {
@@ -28,7 +45,7 @@ return {
     css = { "prettierd" },
     html = { "prettierd" },
     json = { "prettierd" },
-    python = { "prettierd" },
+    python = { "black" },
     javascript = { "prettierd" },
     typescript = { "prettierd" },
     javascriptreact = { "prettierd" },
@@ -37,10 +54,10 @@ return {
 
   linters = {
     php = { "phpstan" },
-    python = { "flake8" },
+    python = { "ruff" },
     javascript = { "eslint_d" },
     typescript = { "eslint_d" },
-    typescriptreact = { "eslint_d" },
-    javascriptreact = { "eslint_d" },
+    typescriptreact = { "eslint" },
+    javascriptreact = { "eslint" },
   },
 }

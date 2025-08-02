@@ -5,6 +5,15 @@ local config = {
     autosave = false,
   },
 
+  diagnostic = {
+    virtual_text = {
+      source = false,
+    },
+    float = {
+      source = "always",
+    },
+  },
+
   opt = {
     mouse = "a",
     number = true,
@@ -24,10 +33,14 @@ local config = {
 
 ---@diagnostic disable
 for section, values in pairs(config) do
-  for key, value in pairs(values) do
-    if section == "hl" then
+  if section == "hl" then
+    for key, value in pairs(values) do
       vim.api.nvim_set_hl(0, key, { fg = value })
-    else
+    end
+  elseif section == "diagnostic" then
+    vim.diagnostic.config(values)
+  else
+    for key, value in pairs(values) do
       vim[section][key] = value
     end
   end
