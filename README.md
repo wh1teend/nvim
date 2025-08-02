@@ -45,11 +45,6 @@ To synchronize plugins run:
 
 The plugins below are grouped by their main purpose to make it easier to see what each one adds to the configuration.
 
-### Libraries & dependencies
-- [nvim-lua/plenary.nvim](https://github.com/nvim-lua/plenary.nvim) – common Lua functions
-- [MunifTanjim/nui.nvim](https://github.com/MunifTanjim/nui.nvim) – UI components
-- [nvim-neotest/nvim-nio](https://github.com/nvim-neotest/nvim-nio) – async helpers
-
 ### Interface & theming
 - [nvim-tree/nvim-web-devicons](https://github.com/nvim-tree/nvim-web-devicons) – file icons
 - [mawkler/modicator.nvim](https://github.com/mawkler/modicator.nvim) – mode indicator
@@ -100,6 +95,11 @@ The plugins below are grouped by their main purpose to make it easier to see wha
 - [mfussenegger/nvim-dap](https://github.com/mfussenegger/nvim-dap) – debug adapter
 - [mxsdev/nvim-dap-vscode-js](https://github.com/mxsdev/nvim-dap-vscode-js) – JS debugger
 - [rcarriga/nvim-dap-ui](https://github.com/rcarriga/nvim-dap-ui) – UI for nvim-dap
+
+### Libraries & dependencies
+- [nvim-lua/plenary.nvim](https://github.com/nvim-lua/plenary.nvim) – common Lua functions
+- [MunifTanjim/nui.nvim](https://github.com/MunifTanjim/nui.nvim) – UI components
+- [nvim-neotest/nvim-nio](https://github.com/nvim-neotest/nvim-nio) – async helpers
 
 ### Utilities
 - [folke/todo-comments.nvim](https://github.com/folke/todo-comments.nvim) – highlight TODOs
