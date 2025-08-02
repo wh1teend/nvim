@@ -45,36 +45,38 @@ To synchronize plugins run:
 
 The plugins below are grouped by their main purpose to make it easier to see what each one adds to the configuration.
 
-### Core libraries
+### Libraries & dependencies
 - [nvim-lua/plenary.nvim](https://github.com/nvim-lua/plenary.nvim) – common Lua functions
 - [MunifTanjim/nui.nvim](https://github.com/MunifTanjim/nui.nvim) – UI components
 - [nvim-neotest/nvim-nio](https://github.com/nvim-neotest/nvim-nio) – async helpers
-- [nvim-tree/nvim-web-devicons](https://github.com/nvim-tree/nvim-web-devicons) – file icons
 
 ### Interface & theming
-- [yetone/avante.nvim](https://github.com/yetone/avante.nvim) – colorscheme
+- [nvim-tree/nvim-web-devicons](https://github.com/nvim-tree/nvim-web-devicons) – file icons
 - [mawkler/modicator.nvim](https://github.com/mawkler/modicator.nvim) – mode indicator
 - [stevearc/dressing.nvim](https://github.com/stevearc/dressing.nvim) – improved input UI
 - [max397574/better-escape.nvim](https://github.com/max397574/better-escape.nvim) – fast escape
 - [karb94/neoscroll.nvim](https://github.com/karb94/neoscroll.nvim) – smooth scrolling
 - [sitiom/nvim-numbertoggle](https://github.com/sitiom/nvim-numbertoggle) – smart line numbers
+- [mawkler/hml.nvim](https://github.com/mawkler/hml.nvim) – H/M/L line markers
 - [briangwaltney/paren-hint.nvim](https://github.com/briangwaltney/paren-hint.nvim) – highlight parentheses
 - [hiphish/rainbow-delimiters.nvim](https://github.com/hiphish/rainbow-delimiters.nvim) – rainbow brackets
+- [mcauley-penney/visual-whitespace.nvim](https://github.com/mcauley-penney/visual-whitespace.nvim) – visualize whitespace
 - [Fildo7525/pretty_hover](https://github.com/Fildo7525/pretty_hover) – nicer LSP hover
 - [hedyhli/outline.nvim](https://github.com/hedyhli/outline.nvim) – symbol outline
 - [m-demare/hlargs.nvim](https://github.com/m-demare/hlargs.nvim) – highlight arguments
 - [MeanderingProgrammer/render-markdown.nvim](https://github.com/MeanderingProgrammer/render-markdown.nvim) – render Markdown
 - [HakonHarnes/img-clip.nvim](https://github.com/HakonHarnes/img-clip.nvim) – paste images
-- [nvzone/volt](https://github.com/nvzone/volt) – floaterm theme helper
-- [ravitemer/mcphub.nvim](https://github.com/ravitemer/mcphub.nvim) – Avante integrations
+- [nvzone/volt](https://github.com/nvzone/volt) – UI framework
+- [nvzone/showkeys](https://github.com/nvzone/showkeys) – display key presses
 
 ### File browsing & search
 - [nvim-tree/nvim-tree.lua](https://github.com/nvim-tree/nvim-tree.lua) – file explorer
 - [ibhagwan/fzf-lua](https://github.com/ibhagwan/fzf-lua) – fuzzy finder
 - [nvim-telescope/telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) – powerful search
 - [echasnovski/mini.pick](https://github.com/echasnovski/mini.pick) – lightweight picker
-- [nvzone/showkeys](https://github.com/nvzone/showkeys) – show key presses
-- [nvzone/floaterm](https://github.com/nvzone/floaterm) – floating terminal
+- [folke/flash.nvim](https://github.com/folke/flash.nvim) – quick jump navigation
+- [xiyaowong/link-visitor.nvim](https://github.com/xiyaowong/link-visitor.nvim) – open URLs under cursor
+- [axieax/urlview.nvim](https://github.com/axieax/urlview.nvim) – list URLs in buffer
 - [mbbill/undotree](https://github.com/mbbill/undotree) – undo history browser
 
 ### LSP & completion
@@ -82,9 +84,16 @@ The plugins below are grouped by their main purpose to make it easier to see wha
 - [hrsh7th/nvim-cmp](https://github.com/hrsh7th/nvim-cmp) – completion engine
 - [Exafunction/windsurf.nvim](https://github.com/Exafunction/windsurf.nvim) – Codeium source
 - [zbirenbaum/copilot.lua](https://github.com/zbirenbaum/copilot.lua) – GitHub Copilot
+- [yetone/avante.nvim](https://github.com/yetone/avante.nvim) – AI coding assistant
+- [ravitemer/mcphub.nvim](https://github.com/ravitemer/mcphub.nvim) – Avante MCP integrations
 - [windwp/nvim-ts-autotag](https://github.com/windwp/nvim-ts-autotag) – auto close tags
 - [stevearc/conform.nvim](https://github.com/stevearc/conform.nvim) – formatter
 - [mfussenegger/nvim-lint](https://github.com/mfussenegger/nvim-lint) – linting
+- [sontungexpt/better-diagnostic-virtual-text](https://github.com/sontungexpt/better-diagnostic-virtual-text) – inline diagnostics
+- [pmizio/typescript-tools.nvim](https://github.com/pmizio/typescript-tools.nvim) – TypeScript tools
+- [dmmulroy/ts-error-translator.nvim](https://github.com/dmmulroy/ts-error-translator.nvim) – clearer TS errors
+- [luckasRanarison/tailwind-tools.nvim](https://github.com/luckasRanarison/tailwind-tools.nvim) – Tailwind CSS tools
+- [roobert/tailwindcss-colorizer-cmp.nvim](https://github.com/roobert/tailwindcss-colorizer-cmp.nvim) – Tailwind colors in completion
 - [nvim-treesitter/nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) – Treesitter highlighting
 
 ### Debugging
@@ -95,6 +104,7 @@ The plugins below are grouped by their main purpose to make it easier to see wha
 ### Utilities
 - [folke/todo-comments.nvim](https://github.com/folke/todo-comments.nvim) – highlight TODOs
 - [folke/trouble.nvim](https://github.com/folke/trouble.nvim) – diagnostics list
+- [nvzone/floaterm](https://github.com/nvzone/floaterm) – floating terminal
 - [wakatime/vim-wakatime](https://github.com/wakatime/vim-wakatime) – coding stats
 
 
