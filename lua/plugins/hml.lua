@@ -1,4 +1,4 @@
 return {
-  "mawkler/hml.nvim",
-  opts = {},
+	"mawkler/hml.nvim",
+	event = "VeryLazy",
 }

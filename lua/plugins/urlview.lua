@@ -1,3 +1,0 @@
-return {
-  "axieax/urlview.nvim",
-}
