@@ -1,9 +1,8 @@
 return {
-	{
-		"Kenzo-Wada/boundary.nvim",
-		branch = "release",
-		opts = {
-			auto = true,
-		},
+	"Kenzo-Wada/boundary.nvim",
+	branch = "release",
+	event = "VeryLazy",
+	opts = {
+		auto = true,
 	},
 }

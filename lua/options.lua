@@ -18,9 +18,7 @@ local config = {
 		mouse = "a",
 		number = true,
 		numberwidth = 4,
-		modifiable = true,
 		relativenumber = true,
-		fileencoding = "utf-8",
 	},
 
 	hl = {

@@ -1,6 +1,6 @@
 return {
-  "nvzone/floaterm",
-  cmd = "FloatermToggle",
-  dependencies = "nvzone/volt",
-  opts = require "configs.floaterm",
+	"nvzone/floaterm",
+	dependencies = { "nvzone/volt" },
+	cmd = { "FloatermToggle" },
+	opts = require("configs.floaterm"),
 }

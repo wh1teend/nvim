@@ -1,11 +1,10 @@
 return {
-  "hedyhli/outline.nvim",
-  event = "VeryLazy",
-  cmd = { "Outline", "OutlineOpen" },
-  init = function()
-    vim.keymap.set("n", "<leader>oo", "<cmd>Outline<CR>", { desc = "Toggle Outline" })
-  end,
-  config = function()
-    require "configs.outline"
-  end,
+	"hedyhli/outline.nvim",
+	cmd = { "Outline", "OutlineOpen" },
+	keys = {
+		{ "<leader>oo", "<cmd>Outline<CR>", desc = "Toggle Outline" },
+	},
+	config = function()
+		require("configs.outline")
+	end,
 }

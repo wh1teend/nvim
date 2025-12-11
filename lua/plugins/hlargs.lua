@@ -1,7 +1,7 @@
 return {
-  "m-demare/hlargs.nvim",
-  event = "BufWinEnter",
-  config = function()
-    require "configs.hlargs"
-  end,
+	"m-demare/hlargs.nvim",
+	event = "VeryLazy",
+	config = function()
+		require("configs.hlargs")
+	end,
 }

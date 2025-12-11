@@ -1,7 +1,8 @@
 return {
-  "windwp/nvim-ts-autotag",
-  event = "BufReadPre",
-  config = function()
-    require "configs.autotag"
-  end,
+	"windwp/nvim-ts-autotag",
+	event = "BufReadPre",
+	dependencies = { "nvim-treesitter/nvim-treesitter" },
+	opts = function()
+		return require("configs.autotag")
+	end,
 }

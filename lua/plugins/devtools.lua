@@ -14,4 +14,11 @@ return {
 			dependencies = { "nvim-lua/plenary.nvim" },
 		},
 	},
+	opts = {
+		actions = {},
+		filetypes = {
+			include = {},
+			exclude = {},
+		},
+	},
 }

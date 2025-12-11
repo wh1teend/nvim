@@ -1,72 +1,162 @@
 return {
-  {
-    "mfussenegger/nvim-dap",
-    config = function()
-      local ok, dap = pcall(require, "dap")
+	{
+		"mfussenegger/nvim-dap",
+		dependencies = {
+			"mxsdev/nvim-dap-vscode-js",
+		},
+		config = function()
+			local dap = require("dap")
 
-      if not ok then
-        return
-      end
+			-- ✅ Настройка иконок для breakpoints
+			vim.fn.sign_define("DapBreakpoint", {
+				text = "●",
+				texthl = "DapBreakpoint",
+				linehl = "",
+				numhl = "",
+			})
 
-      dap.configurations.typescript = {
-        {
-          type = "node2",
-          name = "node attach",
-          request = "attach",
-          program = "${file}",
-          protocol = "inspector",
-        },
-      }
+			vim.fn.sign_define("DapBreakpointCondition", {
+				text = "◆",
+				texthl = "DapBreakpoint",
+				linehl = "",
+				numhl = "",
+			})
 
-      dap.adapters.node2 = {
-        type = "executable",
-        command = "node-debug2-adapter",
-        args = {},
-      }
-    end,
+			vim.fn.sign_define("DapBreakpointRejected", {
+				text = "○",
+				texthl = "DapBreakpoint",
+				linehl = "",
+				numhl = "",
+			})
 
-    dependencies = {
-      "mxsdev/nvim-dap-vscode-js",
-    },
-  },
-  {
-    "rcarriga/nvim-dap-ui",
+			vim.fn.sign_define("DapLogPoint", {
+				text = "◎",
+				texthl = "DapLogPoint",
+				linehl = "",
+				numhl = "",
+			})
 
-    config = function()
-      require("dapui").setup()
-      local dap, dapui = require "dap", require "dapui"
-      dap.listeners.after.event_initialized["dapui_config"] = function()
-        dapui.open {}
-      end
-      dap.listeners.before.event_terminated["dapui_config"] = function()
-        dapui.close {}
-      end
-      dap.listeners.before.event_exited["dapui_config"] = function()
-        dapui.close {}
-      end
-    end,
+			vim.fn.sign_define("DapStopped", {
+				text = "→",
+				texthl = "DapStopped",
+				linehl = "DapStoppedLine",
+				numhl = "",
+			})
 
-    init = function()
-      vim.keymap.set("n", "<leader>du", function()
-        require("dapui").toggle()
-      end, { desc = "Dedug UI" })
+			-- ✅ Настройка цветов
+			vim.api.nvim_set_hl(0, "DapBreakpoint", { fg = "#e51400" })
+			vim.api.nvim_set_hl(0, "DapLogPoint", { fg = "#61afef" })
+			vim.api.nvim_set_hl(0, "DapStopped", { fg = "#98c379" })
+			vim.api.nvim_set_hl(0, "DapStoppedLine", { bg = "#31353f" })
 
-      vim.keymap.set("n", "<Leader>db", function()
-        require("dap").toggle_breakpoint()
-      end, { desc = "Toggle" })
-
-      vim.keymap.set("n", "<Leader>ds", function()
-        require("dap").continue()
-      end, { desc = "Continue" })
-
-      vim.keymap.set("n", "<Leader>dn", function()
-        require("dap").step_over()
-      end, { desc = "Step Over" })
-    end,
-
-    dependencies = {
-      "mfussenegger/nvim-dap",
-      "nvim-neotest/nvim-nio",
-    },
-  },
+			-- Ваши существующие настройки
+			dap.configurations.typescript = {
+				{
+					type = "node2",
+					name = "node attach",
+					request = "attach",
+					program = "${file}",
+					protocol = "inspector",
+				},
+			}
+			dap.adapters.node2 = {
+				type = "executable",
+				command = "node-debug2-adapter",
+				args = {},
+			}
+		end,
+	},
+	{
+		"rcarriga/nvim-dap-ui",
+		dependencies = {
+			"mfussenegger/nvim-dap",
+			"nvim-neotest/nvim-nio",
+		},
+		keys = {
+			{
+				"<leader>du",
+				function()
+					require("dapui").toggle()
+				end,
+				desc = "Toggle Debug UI",
+			},
+			{
+				"<leader>db",
+				function()
+					require("dap").toggle_breakpoint()
+				end,
+				desc = "Toggle Breakpoint",
+			},
+			{
+				"<leader>dB",
+				function()
+					require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
+				end,
+				desc = "Conditional Breakpoint",
+			},
+			{
+				"<leader>ds",
+				function()
+					require("dap").continue()
+				end,
+				desc = "Start/Continue",
+			},
+			{
+				"<leader>dn",
+				function()
+					require("dap").step_over()
+				end,
+				desc = "Step Over",
+			},
+			{
+				"<leader>di",
+				function()
+					require("dap").step_into()
+				end,
+				desc = "Step Into",
+			},
+			{
+				"<leader>do",
+				function()
+					require("dap").step_out()
+				end,
+				desc = "Step Out",
+			},
+			{
+				"<leader>dr",
+				function()
+					require("dap").repl.open()
+				end,
+				desc = "Open REPL",
+			},
+			{
+				"<leader>dl",
+				function()
+					require("dap").run_last()
+				end,
+				desc = "Run Last",
+			},
+			{
+				"<leader>dt",
+				function()
+					require("dap").terminate()
+				end,
+				desc = "Terminate",
+			},
+		},
+		config = function()
+			local dap = require("dap")
+			local dapui = require("dapui")
+			dapui.setup()
+			dap.listeners.after.event_initialized["dapui_config"] = function()
+				dapui.open()
+			end
+			dap.listeners.before.event_terminated["dapui_config"] = function()
+				dapui.close()
+			end
+			dap.listeners.before.event_exited["dapui_config"] = function()
+				dapui.close()
+			end
+		end,
+	},
 }

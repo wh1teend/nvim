@@ -1,3 +1,0 @@
-return {
-	"ingur/floatty.nvim",
-}

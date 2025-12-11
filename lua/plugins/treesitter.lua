@@ -1,4 +1,4 @@
 return {
-  "nvim-treesitter/nvim-treesitter",
-  opts = require "configs.treesitter",
+	"nvim-treesitter/nvim-treesitter",
+	opts = require("configs.treesitter"),
 }
