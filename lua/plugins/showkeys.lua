@@ -1,5 +1,5 @@
 return {
-  "nvzone/showkeys",
-  cmd = "ShowkeysToggle",
-  opts = require "configs.showkeys",
+	"nvzone/showkeys",
+	cmd = "ShowkeysToggle",
+	opts = require("configs.showkeys"),
 }

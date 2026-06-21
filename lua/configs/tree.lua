@@ -1,17 +1,17 @@
 local options = {
-  filters = {
-    dotfiles = false,
+	filters = {
+		dotfiles = false,
 
-    custom = {
-      ".DS_Store",
-      ".git",
-    },
+		custom = {
+			".DS_Store",
+			".git",
+		},
 
-    exclude = {
-      ".gitignore",
-      ".env",
-    },
-  },
+		exclude = {
+			".gitignore",
+			".env",
+		},
+	},
 }
 
 return options

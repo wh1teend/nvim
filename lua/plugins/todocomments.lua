@@ -1,6 +1,6 @@
 return {
-  "folke/todo-comments.nvim",
-  event = "VeryLazy",
-  dependencies = { "nvim-lua/plenary.nvim" },
-  opts = require "configs.todocomments",
+	"folke/todo-comments.nvim",
+	event = "VeryLazy",
+	dependencies = { "nvim-lua/plenary.nvim" },
+	opts = require("configs.todocomments"),
 }

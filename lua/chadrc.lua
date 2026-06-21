@@ -1,52 +1,52 @@
 local M = {}
 
 M.base46 = {
-  theme = "ayu_dark",
-  theme_toggle = {
-    "ayu_dark",
-    "ayu_light",
-  },
+	theme = "ayu_dark",
+
+	theme_toggle = {
+		"ayu_dark",
+		"ayu_light",
+	},
 }
 
 M.ui = {
-  cmp = {
-    lspkind_text = true,
-    style = "default",
-    format_colors = {
-      tailwind = true,
-    },
-  },
+	cmp = {
+		lspkind_text = true,
+		style = "default",
+	},
 
-  telescope = {
-    style = "bordered",
-  },
+	telescope = {
+		style = "bordered",
+	},
 
-  statusline = {
-    enabled = true,
-    theme = "default",
-    separator_style = "block",
-  },
+	statusline = {
+		enabled = true,
+		theme = "default",
+		separator_style = "block",
+	},
 
-  tabufline = {
-    enabled = true,
-    lazyload = true,
-    order = {
-      "treeOffset",
-      "buffers",
-      "tabs",
-      "btns",
-    },
-  },
+	tabufline = {
+		enabled = true,
+		lazyload = true,
+
+		order = {
+			"treeOffset",
+			"buffers",
+			"tabs",
+			"btns",
+		},
+	},
 }
 
 M.colorify = {
-  enabled = true,
-  mode = "virtual",
-  virt_text = "󱓻 ",
-  highlight = {
-    hex = true,
-    lspvars = true,
-  },
+	enabled = true,
+	mode = "virtual",
+	virt_text = "󱓻 ",
+
+	highlight = {
+		hex = true,
+		lspvars = true,
+	},
 }
 
 return M

@@ -8,6 +8,12 @@ local config = {
 	diagnostic = {
 		virtual_text = {
 			source = false,
+			format = function(diagnostic)
+				if diagnostic.source then
+					return string.format("[%s] %s", diagnostic.source, diagnostic.message)
+				end
+				return diagnostic.message
+			end,
 		},
 		float = {
 			source = "always",
@@ -18,9 +24,7 @@ local config = {
 		mouse = "a",
 		number = true,
 		numberwidth = 4,
-		modifiable = true,
 		relativenumber = true,
-		fileencoding = "utf-8",
 	},
 
 	hl = {

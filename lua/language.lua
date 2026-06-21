@@ -2,16 +2,17 @@ local vue = require("configs.lsp.vue")
 
 return {
 	lsp = {
-		"html",
-		"cssls",
-		"pyright",
-		"ts_ls",
-		"jsonls",
-		"prismals",
-		"intelephense",
-		"vtsls",
-		"vue_ls",
-		"vue-language-server",
+		servers = {
+			"html",
+			"cssls",
+			"pyright",
+			"jsonls",
+			"prismals",
+			"intelephense",
+			"vtsls",
+			"vue_ls",
+			"gopls",
+		},
 
 		configs = {
 			{
@@ -38,6 +39,7 @@ return {
 		"typescript",
 		"javascript",
 		"prisma",
+		"go",
 	},
 
 	formatters = {
@@ -51,6 +53,7 @@ return {
 		typescript = { "prettierd" },
 		javascriptreact = { "prettierd" },
 		typescriptreact = { "prettierd" },
+		go = { "gofumpt", "goimports" },
 	},
 
 	linters = {
@@ -60,5 +63,19 @@ return {
 		typescript = { "eslint_d" },
 		typescriptreact = { "eslint" },
 		javascriptreact = { "eslint" },
+		go = { "golangcilint" },
+	},
+
+	debuggers = {
+		"js-debug-adapter",
+	},
+
+	mason_packages = {
+		html = "html-lsp",
+		cssls = "css-lsp",
+		jsonls = "json-lsp",
+		prismals = "prisma-language-server",
+		vue_ls = "vue-language-server",
+		golangcilint = "golangci-lint",
 	},
 }
