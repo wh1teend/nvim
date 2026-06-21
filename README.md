@@ -68,16 +68,13 @@ lua/
 
 The plugins below are grouped by their main purpose to make it easier to see what each one adds to the configuration.
 
-### Libraries & dependencies
-- [nvim-lua/plenary.nvim](https://github.com/nvim-lua/plenary.nvim) – common Lua functions
-- [MunifTanjim/nui.nvim](https://github.com/MunifTanjim/nui.nvim) – UI components
-- [nvim-neotest/nvim-nio](https://github.com/nvim-neotest/nvim-nio) – async IO helpers
-- [nvzone/volt](https://github.com/nvzone/volt) – UI framework
-- [folke/snacks.nvim](https://github.com/folke/snacks.nvim) – quality-of-life library
-
-### Interface & appearance
-- [mawkler/modicator.nvim](https://github.com/mawkler/modicator.nvim) – line-number color by mode
-- [cpea2506/relative-toggle.nvim](https://github.com/cpea2506/relative-toggle.nvim) – smart relative line numbers
+### Interface & theming
+- [nvim-tree/nvim-web-devicons](https://github.com/nvim-tree/nvim-web-devicons) – file icons
+- [mawkler/modicator.nvim](https://github.com/mawkler/modicator.nvim) – mode indicator
+- [stevearc/dressing.nvim](https://github.com/stevearc/dressing.nvim) – improved input UI
+- [max397574/better-escape.nvim](https://github.com/max397574/better-escape.nvim) – fast escape
+- [karb94/neoscroll.nvim](https://github.com/karb94/neoscroll.nvim) – smooth scrolling
+- [sitiom/nvim-numbertoggle](https://github.com/sitiom/nvim-numbertoggle) – smart line numbers
 - [mawkler/hml.nvim](https://github.com/mawkler/hml.nvim) – H/M/L line markers
 - [briangwaltney/paren-hint.nvim](https://github.com/briangwaltney/paren-hint.nvim) – show the opening line of the surrounding parenthesis
 - [hiphish/rainbow-delimiters.nvim](https://github.com/hiphish/rainbow-delimiters.nvim) – rainbow brackets
@@ -129,6 +126,11 @@ The plugins below are grouped by their main purpose to make it easier to see wha
 - [mfussenegger/nvim-dap](https://github.com/mfussenegger/nvim-dap) – debug adapter protocol client
 - [rcarriga/nvim-dap-ui](https://github.com/rcarriga/nvim-dap-ui) – UI for nvim-dap
 - [mfussenegger/nvim-dap-python](https://github.com/mfussenegger/nvim-dap-python) – Python debugging *(optional)*
+
+### Libraries & dependencies
+- [nvim-lua/plenary.nvim](https://github.com/nvim-lua/plenary.nvim) – common Lua functions
+- [MunifTanjim/nui.nvim](https://github.com/MunifTanjim/nui.nvim) – UI components
+- [nvim-neotest/nvim-nio](https://github.com/nvim-neotest/nvim-nio) – async helpers
 
 ### Utilities
 - [folke/todo-comments.nvim](https://github.com/folke/todo-comments.nvim) – highlight TODOs
