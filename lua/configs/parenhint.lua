@@ -1,12 +1,12 @@
 local options = {
-  highlight = "Comment",
-  include_paren = true,
-  anywhere_on_line = true,
-  show_same_line_opening = false,
+	highlight = "Comment",
+	include_paren = true,
+	anywhere_on_line = true,
+	show_same_line_opening = false,
 
-  excluded_buftypes = {
-    "terminal",
-  },
+	excluded_buftypes = {
+		"terminal",
+	},
 }
 
-require("paren-hint").setup(options)
+return options

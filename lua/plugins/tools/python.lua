@@ -8,7 +8,5 @@ return {
 		{ "nvim-telescope/telescope.nvim", optional = true },
 		{ "mfussenegger/nvim-dap-python", optional = true },
 	},
-	opts = {
-		name = { ".venv", "venv", "env" }, -- Множественные имена
-	},
+	opts = require("configs.tools.python"),
 }

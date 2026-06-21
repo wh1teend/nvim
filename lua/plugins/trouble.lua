@@ -1,5 +1,5 @@
 return {
 	"folke/trouble.nvim",
 	cmd = "Trouble",
-	opts = {},
+	opts = require("configs.trouble"),
 }

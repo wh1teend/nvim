@@ -28,7 +28,7 @@ function M.create_cmd(name, callback, opts)
 end
 
 function M.run_build(commands)
-	local os_name = vim.loop.os_uname().sysname
+	local os_name = vim.uv.os_uname().sysname
 
 	local command
 	if os_name == "Windows_NT" then

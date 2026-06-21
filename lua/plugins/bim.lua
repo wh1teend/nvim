@@ -1,5 +1,5 @@
 return {
 	"sontungexpt/bim.nvim",
 	event = "InsertEnter",
-	opts = {},
+	opts = require("configs.bim"),
 }

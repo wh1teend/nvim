@@ -1,5 +1,5 @@
 local options = {
-  enable_chat = false,
+	enable_chat = false,
 }
 
 require("codeium").setup(options)

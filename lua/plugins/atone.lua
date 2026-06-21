@@ -1,5 +1,5 @@
 return {
 	"XXiaoA/atone.nvim",
 	cmd = "Atone",
-	opts = {},
+	opts = require("configs.atone"),
 }

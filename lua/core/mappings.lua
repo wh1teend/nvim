@@ -1,13 +1,13 @@
 require("nvchad.mappings")
 
-local map = require("helpers").map
+local map = require("utils").map
 
-map("i", "jj", "<ESC>")
-map("v", "ff", "<ESC>")
+map("i", "jj", "<Esc>", { desc = "Exit insert mode" })
+map("v", "ff", "<Esc>", { desc = "Exit visual mode" })
 
 map("n", "<C-t>", function()
 	require("menu").open("default")
-end, {})
+end, { desc = "Open menu" })
 
 map({ "n", "v" }, "<RightMouse>", function()
 	require("menu.utils").delete_old_menus()
@@ -18,4 +18,4 @@ map({ "n", "v" }, "<RightMouse>", function()
 	local options = vim.bo[buf].ft == "NvimTree" and "nvimtree" or "default"
 
 	require("menu").open(options, { mouse = true })
-end, {})
+end, { desc = "Open context menu" })

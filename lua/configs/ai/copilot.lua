@@ -1,19 +1,3 @@
-local options = {
-  suggestion = {
-    enabled = false,
-  },
-
-  panel = {
-    enabled = false,
-  },
-
-  server_opts_overrides = {
-    settings = {
-      advanced = {
-        delayCompletions = 75,
-      },
-    },
-  },
-}
+local options = {}
 
 require("copilot").setup(options)

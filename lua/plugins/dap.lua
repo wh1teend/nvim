@@ -1,69 +1,8 @@
 return {
 	{
 		"mfussenegger/nvim-dap",
-		dependencies = {
-			"mxsdev/nvim-dap-vscode-js",
-		},
 		config = function()
-			local dap = require("dap")
-
-			-- ✅ Настройка иконок для breakpoints
-			vim.fn.sign_define("DapBreakpoint", {
-				text = "●",
-				texthl = "DapBreakpoint",
-				linehl = "",
-				numhl = "",
-			})
-
-			vim.fn.sign_define("DapBreakpointCondition", {
-				text = "◆",
-				texthl = "DapBreakpoint",
-				linehl = "",
-				numhl = "",
-			})
-
-			vim.fn.sign_define("DapBreakpointRejected", {
-				text = "○",
-				texthl = "DapBreakpoint",
-				linehl = "",
-				numhl = "",
-			})
-
-			vim.fn.sign_define("DapLogPoint", {
-				text = "◎",
-				texthl = "DapLogPoint",
-				linehl = "",
-				numhl = "",
-			})
-
-			vim.fn.sign_define("DapStopped", {
-				text = "→",
-				texthl = "DapStopped",
-				linehl = "DapStoppedLine",
-				numhl = "",
-			})
-
-			-- ✅ Настройка цветов
-			vim.api.nvim_set_hl(0, "DapBreakpoint", { fg = "#e51400" })
-			vim.api.nvim_set_hl(0, "DapLogPoint", { fg = "#61afef" })
-			vim.api.nvim_set_hl(0, "DapStopped", { fg = "#98c379" })
-			vim.api.nvim_set_hl(0, "DapStoppedLine", { bg = "#31353f" })
-
-			-- Ваши существующие настройки
-			dap.configurations.typescript = {
-				{
-					type = "node2",
-					name = "node attach",
-					request = "attach",
-					program = "${file}",
-					protocol = "inspector",
-				},
-			}
-			dap.adapters.node2 = {
-				type = "executable",
-				command = "node-debug2-adapter",
-				args = {},
-			}
+			require("configs.dap")
 		end,
 	},
 	{
@@ -145,18 +84,7 @@ return {
 			},
 		},
 		config = function()
-			local dap = require("dap")
-			local dapui = require("dapui")
-			dapui.setup()
-			dap.listeners.after.event_initialized["dapui_config"] = function()
-				dapui.open()
-			end
-			dap.listeners.before.event_terminated["dapui_config"] = function()
-				dapui.close()
-			end
-			dap.listeners.before.event_exited["dapui_config"] = function()
-				dapui.close()
-			end
+			require("configs.dapui")
 		end,
 	},
 }

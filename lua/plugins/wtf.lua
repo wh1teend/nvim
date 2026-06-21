@@ -7,7 +7,6 @@ return {
 		"folke/snacks.nvim",
 	},
 	cmd = { "Wtf", "WtfDiagnose", "WtfFix", "WtfSearch", "WtfPickProvider", "WtfGrepHistory" },
-	opts = {},
 	keys = {
 		{
 			"<leader>wd",
@@ -26,7 +25,6 @@ return {
 			desc = "Fix diagnostic with AI",
 		},
 		{
-			mode = { "n" },
 			"<leader>ws",
 			function()
 				require("wtf").search()
@@ -34,7 +32,6 @@ return {
 			desc = "Search diagnostic with Google",
 		},
 		{
-			mode = { "n" },
 			"<leader>wp",
 			function()
 				require("wtf").pick_provider()
@@ -42,7 +39,6 @@ return {
 			desc = "Pick provider",
 		},
 		{
-			mode = { "n" },
 			"<leader>wh",
 			function()
 				require("wtf").history()
@@ -50,7 +46,6 @@ return {
 			desc = "Populate the quickfix list with previous chat history",
 		},
 		{
-			mode = { "n" },
 			"<leader>wg",
 			function()
 				require("wtf").grep_history()
@@ -58,4 +53,5 @@ return {
 			desc = "Grep previous chat history with Telescope",
 		},
 	},
+	opts = require("configs.wtf"),
 }

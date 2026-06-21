@@ -1,5 +1,5 @@
 return {
 	"mawkler/hml.nvim",
 	event = "VeryLazy",
-	opts = {},
+	opts = require("configs.hml"),
 }

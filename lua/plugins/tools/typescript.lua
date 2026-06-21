@@ -5,11 +5,11 @@ return {
 			"nvim-lua/plenary.nvim",
 			"neovim/nvim-lspconfig",
 		},
-		opts = {},
+		opts = require("configs.tools.typescript"),
 	},
 	{
 		"dmmulroy/ts-error-translator.nvim",
-		opts = {},
+		opts = require("configs.tools.tserror"),
 	},
 	{
 		"yelog/i18n.nvim",
@@ -18,12 +18,7 @@ return {
 			"nvim-treesitter/nvim-treesitter",
 		},
 		config = function()
-			require("i18n").setup({
-				locales = { "en", "zh" },
-				sources = {
-					"src/locales/{locales}.json",
-				},
-			})
+			require("configs.tools.i18n")
 		end,
 	},
 }

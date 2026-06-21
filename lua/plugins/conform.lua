@@ -10,7 +10,5 @@ return {
 			desc = "Format buffer",
 		},
 	},
-	opts = function()
-		return require("configs.conform")
-	end,
+	opts = require("configs.conform"),
 }

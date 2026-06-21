@@ -8,6 +8,12 @@ local config = {
 	diagnostic = {
 		virtual_text = {
 			source = false,
+			format = function(diagnostic)
+				if diagnostic.source then
+					return string.format("[%s] %s", diagnostic.source, diagnostic.message)
+				end
+				return diagnostic.message
+			end,
 		},
 		float = {
 			source = "always",

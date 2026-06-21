@@ -13,10 +13,6 @@ M.ui = {
 	cmp = {
 		lspkind_text = true,
 		style = "default",
-
-		format_colors = {
-			tailwind = true,
-		},
 	},
 
 	telescope = {
