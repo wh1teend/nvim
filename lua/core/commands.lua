@@ -21,18 +21,23 @@ end, {
 
 utils.create_cmd("LspReindex", function()
 	local bufnr = vim.api.nvim_get_current_buf()
-	local clients = vim.lsp.get_clients({ bufnr = bufnr })
 
-	if #clients == 0 then
-		utils.echo({ { "No LSP clients attached", "WarningMsg" } })
-		return
+	local managed = {}
+	for _, name in ipairs(require("language").lsp.servers) do
+		managed[name] = true
 	end
 
 	local names = {}
+	for _, client in ipairs(vim.lsp.get_clients({ bufnr = bufnr })) do
+		if managed[client.name] then
+			table.insert(names, client.name)
+			client:stop(true)
+		end
+	end
 
-	for _, client in ipairs(clients) do
-		table.insert(names, client.name)
-		client:stop(true)
+	if #names == 0 then
+		utils.echo({ { "No re-indexable LSP clients attached", "WarningMsg" } })
+		return
 	end
 
 	vim.defer_fn(function()
