@@ -1,4 +1,5 @@
 local vue = require("configs.lsp.vue")
+local php = require("configs.lsp.php")
 
 return {
 	lsp = {
@@ -23,6 +24,11 @@ return {
 			{
 				"vue_ls",
 				vue.vue_ls,
+			},
+
+			{
+				"intelephense",
+				php.intelephense,
 			},
 		},
 	},
@@ -57,7 +63,6 @@ return {
 	},
 
 	linters = {
-		php = { "phpstan" },
 		python = { "ruff" },
 		javascript = { "eslint_d" },
 		typescript = { "eslint_d" },
