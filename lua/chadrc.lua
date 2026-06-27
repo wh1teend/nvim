@@ -23,6 +23,7 @@ M.ui = {
 		enabled = true,
 		theme = "default",
 		separator_style = "block",
+		order = { "mode", "file", "git", "%=", "diagnostics", "lsp", "cwd", "cursor" },
 	},
 
 	tabufline = {

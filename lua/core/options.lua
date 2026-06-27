@@ -1,5 +1,14 @@
 require("nvchad.options")
 
+local deprecate = vim.deprecate
+vim.deprecate = function(name, ...)
+	if type(name) == "string" and name:find("is_stopped", 1, true) then
+		return
+	end
+
+	return deprecate(name, ...)
+end
+
 local config = {
 	g = {
 		autosave = false,
