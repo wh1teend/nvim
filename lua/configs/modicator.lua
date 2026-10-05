@@ -1,11 +1,13 @@
-local options = {
-	show_warnings = true,
+return function(opts)
+	local options = {
+		show_warnings = true,
 
-	highlight = {
-		defaults = {
-			bold = true,
+		highlight = {
+			defaults = {
+				bold = true,
+			},
 		},
-	},
-}
+	}
 
-return options
+	return opts and vim.tbl_deep_extend("force", opts, options) or options
+end

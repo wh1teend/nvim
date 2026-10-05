@@ -1,17 +1,19 @@
-local options = {
-	filters = {
-		dotfiles = false,
+return function(opts)
+	local options = {
+		filters = {
+			dotfiles = false,
 
-		custom = {
-			".DS_Store",
-			".git",
+			custom = {
+				".DS_Store",
+				".git",
+			},
+
+			exclude = {
+				".gitignore",
+				".env",
+			},
 		},
+	}
 
-		exclude = {
-			".gitignore",
-			".env",
-		},
-	},
-}
-
-return options
+	return opts and vim.tbl_deep_extend("force", opts, options) or options
+end

@@ -5,11 +5,15 @@ return {
 			"nvim-lua/plenary.nvim",
 			"neovim/nvim-lspconfig",
 		},
-		opts = require("configs.tools.typescript"),
+		opts = function(_, opts)
+			return require("configs.tools.typescript")(opts)
+		end,
 	},
 	{
 		"dmmulroy/ts-error-translator.nvim",
-		opts = require("configs.tools.tserror"),
+		opts = function(_, opts)
+			return require("configs.tools.tserror")(opts)
+		end,
 	},
 	{
 		"yelog/i18n.nvim",
@@ -17,8 +21,9 @@ return {
 			"ibhagwan/fzf-lua",
 			"nvim-treesitter/nvim-treesitter",
 		},
-		config = function()
-			require("configs.tools.i18n")
+		main = "i18n",
+		opts = function(_, opts)
+			return require("configs.tools.i18n")(opts)
 		end,
 	},
 }

@@ -1,15 +1,21 @@
-require("nvchad.autocmds")
+local M = {}
 
-local utils = require("utils")
+function M.setup()
+	require("nvchad.autocmds")
 
-utils.autocmd({ "BufReadPost" }, {
-	callback = function()
-		vim.bo.modifiable = true
-	end,
-})
+	local utils = require("utils")
 
-utils.autocmd({ "BufReadPost", "BufNewFile" }, {
-	callback = function()
-		vim.bo.fileencoding = "utf-8"
-	end,
-})
+	utils.autocmd({ "BufReadPost" }, {
+		callback = function()
+			vim.bo.modifiable = true
+		end,
+	})
+
+	utils.autocmd({ "BufReadPost", "BufNewFile" }, {
+		callback = function()
+			vim.bo.fileencoding = "utf-8"
+		end,
+	})
+end
+
+return M

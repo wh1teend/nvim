@@ -4,27 +4,16 @@ return {
 		{
 			"Exafunction/windsurf.nvim",
 			cmd = "Codeium",
-			config = function()
-				require("configs.ai.codeium")
-			end,
-		},
-		{
-			"zbirenbaum/copilot.lua",
-			cmd = "Copilot",
-			event = "InsertEnter",
-			config = function()
-				require("configs.ai.copilot")
-			end,
-		},
-		{
-			"zbirenbaum/copilot-cmp",
-			config = function()
-				require("configs.ai.copilotcmp")
+			main = "codeium",
+			opts = function(_, opts)
+				return require("configs.ai.codeium")(opts)
 			end,
 		},
 		{
 			"SergioRibera/cmp-dotenv",
 		},
 	},
-	config = require("configs.cmp"),
+	config = function(_, opts)
+		return require("configs.cmp")(opts)
+	end,
 }

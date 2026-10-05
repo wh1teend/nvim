@@ -1,5 +1,7 @@
 return {
 	"m-demare/hlargs.nvim",
 	event = "VeryLazy",
-	opts = require("configs.hlargs"),
+	opts = function(_, opts)
+		return require("configs.hlargs")(opts)
+	end,
 }

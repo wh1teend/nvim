@@ -1,7 +1,6 @@
-return function(_, opts)
+return function(opts)
 	local sources_to_add = {
 		{ name = "codeium" },
-		{ name = "copilot" },
 		{ name = "dotenv" },
 	}
 

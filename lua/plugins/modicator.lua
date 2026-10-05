@@ -4,5 +4,7 @@ return {
 	init = function()
 		vim.o.cursorline = true
 	end,
-	opts = require("configs.modicator"),
+	opts = function(_, opts)
+		return require("configs.modicator")(opts)
+	end,
 }

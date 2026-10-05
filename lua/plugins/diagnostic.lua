@@ -1,5 +1,7 @@
 return {
 	"sontungexpt/better-diagnostic-virtual-text",
 	event = "LspAttach",
-	opts = require("configs.diagnostic"),
+	opts = function(_, opts)
+		return require("configs.diagnostic")(opts)
+	end,
 }

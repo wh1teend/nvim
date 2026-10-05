@@ -2,5 +2,7 @@ return {
 	"nvzone/floaterm",
 	dependencies = { "nvzone/volt" },
 	cmd = { "FloatermToggle" },
-	opts = require("configs.floaterm"),
+	opts = function(_, opts)
+		return require("configs.floaterm")(opts)
+	end,
 }

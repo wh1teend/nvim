@@ -1,25 +1,31 @@
-local utils = require("utils")
+local M = {}
 
-utils.autocmd({ "InsertLeave", "TextChanged" }, {
-	nested = true,
-	callback = function()
-		if vim.g.autosave and #vim.api.nvim_buf_get_name(0) ~= 0 and vim.bo.buflisted then
-			vim.cmd("silent w")
+function M.setup()
+	local utils = require("utils")
 
-			utils.echo({ { "󰄳", "LazyProgressDone" }, { " File autosaved at " .. os.date("%I:%M %p") } })
+	utils.autocmd({ "InsertLeave", "TextChanged" }, {
+		nested = true,
+		callback = function()
+			if vim.g.autosave and #vim.api.nvim_buf_get_name(0) ~= 0 and vim.bo.buflisted then
+				vim.cmd("silent w")
 
-			utils.clear(800)
-		end
-	end,
-})
+				utils.echo({ { "󰄳", "LazyProgressDone" }, { " File autosaved at " .. os.date("%I:%M %p") } })
 
-utils.create_cmd("AsToggle", function()
-	vim.g.autosave = not vim.g.autosave
+				utils.clear(800)
+			end
+		end,
+	})
 
-	local enabledTxt = { { "󰆓 ", "LazyProgressDone" }, { "autosave enabled!" } }
-	local disabledTxt = { { "  ", "LazyNoCond" }, { "autosave disabled" } }
+	utils.create_cmd("AsToggle", function()
+		vim.g.autosave = not vim.g.autosave
 
-	utils.echo(vim.g.autosave and enabledTxt or disabledTxt)
+		local enabled_text = { { "󰆓 ", "LazyProgressDone" }, { "autosave enabled!" } }
+		local disabled_text = { { "  ", "LazyNoCond" }, { "autosave disabled" } }
 
-	utils.clear(800)
-end, {})
+		utils.echo(vim.g.autosave and enabled_text or disabled_text)
+
+		utils.clear(800)
+	end, {})
+end
+
+return M

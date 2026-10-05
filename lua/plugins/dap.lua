@@ -1,8 +1,8 @@
 return {
 	{
 		"mfussenegger/nvim-dap",
-		config = function()
-			require("configs.dap")
+		config = function(_, opts)
+			return require("configs.dap")(opts)
 		end,
 	},
 	{
@@ -83,8 +83,8 @@ return {
 				desc = "Terminate",
 			},
 		},
-		config = function()
-			require("configs.dapui")
+		config = function(_, opts)
+			return require("configs.dapui")(opts)
 		end,
 	},
 }

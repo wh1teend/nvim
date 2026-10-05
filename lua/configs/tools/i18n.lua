@@ -1,8 +1,10 @@
-local options = {
-	locales = { "en", "zh" },
-	sources = {
-		"src/locales/{locales}.json",
-	},
-}
+return function(opts)
+	local options = {
+		locales = { "en", "zh" },
+		sources = {
+			"src/locales/{locales}.json",
+		},
+	}
 
-require("i18n").setup(options)
+	return opts and vim.tbl_deep_extend("force", opts, options) or options
+end

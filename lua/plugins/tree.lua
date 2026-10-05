@@ -1,4 +1,6 @@
 return {
 	"nvim-tree/nvim-tree.lua",
-	opts = require("configs.tree"),
+	opts = function(_, opts)
+		return require("configs.tree")(opts)
+	end,
 }

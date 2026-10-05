@@ -1,5 +1,7 @@
 return {
 	"XXiaoA/atone.nvim",
 	cmd = "Atone",
-	opts = require("configs.atone"),
+	opts = function(_, opts)
+		return require("configs.atone")(opts)
+	end,
 }

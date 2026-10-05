@@ -1,5 +1,7 @@
-local options = {
-	enable_chat = false,
-}
+return function(opts)
+	local options = {
+		enable_chat = false,
+	}
 
-require("codeium").setup(options)
+	return opts and vim.tbl_deep_extend("force", opts, options) or options
+end

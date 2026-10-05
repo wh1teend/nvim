@@ -10,5 +10,7 @@ return {
 			desc = "Hover",
 		},
 	},
-	opts = require("configs.prettyhover"),
+	opts = function(_, opts)
+		return require("configs.prettyhover")(opts)
+	end,
 }

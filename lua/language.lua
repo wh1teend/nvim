@@ -1,6 +1,11 @@
+<<<<<<< Updated upstream
 local vue = require("configs.lsp.vue")
+=======
+local vue = require("configs.lsp.vue")()
+local php = require("configs.lsp.php")()
+>>>>>>> Stashed changes
 
-return {
+local options = {
 	lsp = {
 		servers = {
 			"html",
@@ -79,3 +84,5 @@ return {
 		golangcilint = "golangci-lint",
 	},
 }
+
+return options

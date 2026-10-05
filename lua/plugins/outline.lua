@@ -4,5 +4,7 @@ return {
 	keys = {
 		{ "<leader>oo", "<cmd>Outline<CR>", desc = "Toggle Outline" },
 	},
-	opts = require("configs.outline"),
+	opts = function(_, opts)
+		return require("configs.outline")(opts)
+	end,
 }

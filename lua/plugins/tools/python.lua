@@ -8,5 +8,7 @@ return {
 		{ "nvim-telescope/telescope.nvim", optional = true },
 		{ "mfussenegger/nvim-dap-python", optional = true },
 	},
-	opts = require("configs.tools.python"),
+	opts = function(_, opts)
+		return require("configs.tools.python")(opts)
+	end,
 }
