@@ -2,21 +2,6 @@ return function()
 	local resolve = require("project_root")()
 
 	local roots = {
-		eslint_d = {
-			"eslint.config.js",
-			"eslint.config.mjs",
-			"eslint.config.cjs",
-			"eslint.config.ts",
-			"eslint.config.mts",
-			"eslint.config.cts",
-			".eslintrc",
-			".eslintrc.json",
-			".eslintrc.yml",
-			".eslintrc.yaml",
-			".eslintrc.js",
-			".eslintrc.cjs",
-			"package.json",
-		},
 		golangcilint = { "go.mod", ".golangci.yml", ".golangci.yaml", ".golangci.toml", ".golangci.json" },
 		htmlhint = { ".htmlhintrc", "package.json" },
 		luacheck = { ".luacheckrc", ".luacheckrc.lua" },

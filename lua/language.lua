@@ -1,4 +1,5 @@
-local vue = require("configs.development.lsp.vue")()
+local typescript = require("configs.development.lsp.typescript")()
+local eslint = require("configs.development.lsp.eslint")()
 local php = require("configs.development.lsp.php")()
 local javascript = require("configs.development.dap.javascript")()
 local python_debug = require("configs.development.dap.python")()
@@ -48,7 +49,7 @@ local options = {
 		},
 
 		css = {
-			lsp = { { "cssls" } },
+			lsp = { { "cssls" }, { "tailwindcss" } },
 			highlighting = { "css" },
 			formatters = { "prettierd" },
 			filetypes = { "css", "scss", "less" },
@@ -123,9 +124,9 @@ local options = {
 		},
 
 		javascript = {
-			lsp = { { "vtsls", vue.vtsls } },
+			lsp = { { "vtsls", typescript }, { "eslint", eslint } },
+			lsp_plugins = { "typescript-plugin-css-modules" },
 			formatters = { "prettierd" },
-			linters = { "eslint_d" },
 			highlighting = { "javascript", "typescript" },
 			filetypes = { "javascript", "typescript" },
 
@@ -154,7 +155,6 @@ local options = {
 
 		react = {
 			formatters = { "prettierd" },
-			linters = { "eslint_d" },
 			highlighting = { "javascript", "tsx" },
 			filetypes = { "javascriptreact", "typescriptreact" },
 
@@ -164,9 +164,8 @@ local options = {
 		},
 
 		vue = {
-			lsp = { { "vue_ls", vue.vue_ls } },
+			lsp = { { "vue_ls" } },
 			formatters = { "prettierd" },
-			linters = { "eslint_d" },
 			filetypes = { "vue" },
 			highlighting = { "vue" },
 		},
@@ -177,6 +176,8 @@ local options = {
 		vimls = "vim-language-server",
 		html = "html-lsp",
 		cssls = "css-lsp",
+		eslint = "eslint-lsp",
+		tailwindcss = "tailwindcss-language-server",
 		jsonls = "json-lsp",
 		prismals = "prisma-language-server",
 		vue_ls = "vue-language-server",

@@ -14,6 +14,8 @@ This repository contains my personal setup for Neovim built on top of [NvChad](h
 - **make** (on Windows install `GnuWin32` and add it to your `PATH`)
 - **Node.js** for JS/TS/Vue language servers, web tooling and JS/PHP debug adapters.
 - **Python 3**, **Go** and **PHP** for their respective tooling and debug sessions.
+- **Go 1.21+** with automatic toolchain downloads enabled to build `ohm` on plugin
+  install/update; its pinned Go module selects the required toolchain.
 - **Lua/LuaJIT** and **LuaRocks** for Mason's luacheck installation (Lua tooling).
 - **fd** for `:VenvSelect` virtualenv discovery.
 - **Chrome/Chromium** for browser debug launches; the application dev server must be running.
@@ -32,8 +34,8 @@ This repository contains my personal setup for Neovim built on top of [NvChad](h
    git clone https://github.com/wh1teend/nvim ~/.config/nvim
    ```
 3. Start Neovim. On the first launch `lazy.nvim` will install all plugins and
-   `mason-tool-installer` will pull the LSP servers, formatters, linters and debug
-   adapters declared in `lua/language.lua`.
+   `mason-tool-installer` will pull the LSP servers, language-service plugins,
+   formatters, linters and debug adapters declared in `lua/language.lua`.
 
 Codeium/Windsurf is the only AI completion provider and integrates with `nvim-cmp`.
 On first use, authenticate with `:Codeium Auth`.
@@ -50,7 +52,7 @@ To synchronize plugins run:
 
 - Light and dark `ayu` themes with quick switching.
 - Preconfigured LSP for Lua, Vimscript, HTML, CSS, JSON/JSONC, Python, TypeScript/JavaScript, Vue, Prisma, PHP and Go.
-- Automatic formatting (`conform.nvim`) and linting (`nvim-lint`) on save.
+- Automatic formatting (`conform.nvim`), LSP diagnostics and save-time CLI linting (`nvim-lint`).
 - A single language registry (`lua/language.lua`) drives LSP, Treesitter, formatters,
   linters, DAP, language tools and automatic Mason installs.
 - AI completion via Codeium/Windsurf through `nvim-cmp`.
@@ -76,7 +78,7 @@ lua/
 │   ├── lazy.lua      -- bootstrap options, independent of plugin categories
 │   ├── editing/      -- completion, Codeium, insert behavior, undo
 │   ├── development/ -- LSP, format, lint, DAP, Mason and language tools
-│   │   ├── lsp/     -- PHP/Vue server settings
+│   │   ├── lsp/     -- PHP, ESLint and shared JS/TS settings, including Vue and CSS Modules
 │   │   ├── dap/     -- language adapters/configurations and UI setup
 │   │   └── linters/ -- tool-specific overrides and project cwd adaptation
 │   ├── syntax/      -- Treesitter and structural highlighting
@@ -119,6 +121,7 @@ as CSS/SCSS/LESS, JSON/JSONC, JavaScript/TypeScript and JSX/TSX.
 | `filetypes` | Filetypes sharing the profile's formatting, linting and default DAP configurations |
 | `highlighting` | Treesitter parsers; shared parsers are deduplicated |
 | `lsp` | Server tuples: `{ server_name }` or `{ server_name, options }` |
+| `lsp_plugins` | Additional language-service packages to install through Mason |
 | `formatters`, `linters` | Ordered formatter chain and enabled linters |
 | `format_on_save` | Optional override merged with the global save-time policy |
 | `linter_options` | Optional tool-specific linter overrides |
@@ -166,8 +169,16 @@ the global LSP fallback setting.
 Detailed LSP/DAP settings remain in deferred config functions under
 `configs/development/lsp/` and `configs/development/dap/`. The registry associates
 their results with server/adapter names using references such as
-`{ "vtsls", vue.vtsls }` and `{ "vue_ls", vue.vue_ls }`. Declare each LSP server
-once: `javascript.lsp` owns vtsls, including its Vue bridge; `vue.lsp` owns Vue LS.
+`{ "vtsls", typescript }`. The shared JS/TS server options live in
+`configs/development/lsp/typescript.lua`; its `@vue/typescript-plugin` extends
+that server for Vue SFCs, and `typescript-plugin-css-modules` provides typed CSS
+class completion and diagnostics. Both plugins are loaded from Mason-managed
+packages; a project-level TypeScript plugin entry is not required. Declare each
+LSP server once: `javascript.lsp` owns vtsls and ESLint, `css.lsp` owns CSS LS and
+Tailwind CSS LS, and `vue.lsp` declares `{ "vue_ls" }` with the server defaults.
+Their native server filetypes also cover JSX/TSX and Vue where supported. Vue LS
+uses the request bridge built into the pinned `nvim-lspconfig`; there is no local
+`on_init` override or empty Vue config wrapper.
 LSP filetype coverage comes from the server configuration, not from the profile's
 `filetypes`. Omitting a tuple's second item keeps the server defaults. Overrides
 are applied before enabling servers; `:LspReindex` uses the same profile tuples
@@ -181,11 +192,19 @@ only browser launch/attach choices apply. Records without an override inherit
 their profile's filetypes. DAP configurations are copied separately per filetype
 to isolate runtime changes.
 
-Mason collects server, formatter, linter and debugger packages from all profiles,
-deduplicates shared packages such as `js-debug-adapter`, and sorts the installation
-list. The Lua DAP record has no positional package: OSV is a lazy.nvim dependency,
-not a Mason tool. Lint triggers stay in `configs/development/lint.lua`; plugin
-loading rules, UI settings and setup code stay in `plugins/` and `configs/`.
+`lua/plugins/development/mason_tool_installer.lua` collects server,
+language-service plugin, formatter, linter and debugger packages from all profiles,
+deduplicates shared packages such as `js-debug-adapter`, sorts the installation
+list and builds the installer's options. Installation itself belongs to the
+external plugin. The TypeScript factory in
+`configs/development/lsp/typescript.lua` returns LSP options first and its CSS
+Modules Mason package definition second. Mason setup registers this definition
+through native Lua `package.preload` modules and the `lua:mason_lsp_packages`
+source, before the official registry. No separate package directory or descriptor
+file is needed; requiring the TypeScript factory alone still performs no setup.
+The Lua DAP record has no positional package: OSV is a lazy.nvim dependency, not a
+Mason tool. Lint triggers stay in `configs/development/lint.lua`; plugin loading
+rules, UI settings and setup code stay in `plugins/` and `configs/`.
 
 
 ### Formatting and diagnostics
@@ -194,7 +213,7 @@ loading rules, UI settings and setup code stay in `plugins/` and `configs/`.
 | --- | --- | --- |
 | Lua | StyLua | Lua LS + luacheck (Neovim's `vim` global is allowed) |
 | Vimscript | LSP fallback if supported by the server | Vim LS + Vint |
-| JS/TS, JSX/TSX, Vue | prettierd | vtsls/Vue LS + eslint_d |
+| JS/TS, JSX/TSX, Vue | prettierd | vtsls/Vue LS + ESLint LS |
 | HTML | prettierd | HTMLHint (the HTML language server provides completion/navigation, not general HTML linting) |
 | CSS/SCSS/LESS | prettierd | CSS language server |
 | JSON/JSONC | prettierd | JSON LS (including schema validation) |
@@ -208,18 +227,73 @@ only when no configured external formatter is available. Saves have a 500 ms
 formatting budget by default; PHP gets 2000 ms because cold ECS formatting of
 larger files can exceed the default. Vimdoc has syntax highlighting, not a runtime
 debugger or a standalone formatter/linter.
-Automatic linting runs on `BufWritePost`; `:Lint` runs the same linters manually.
-Linters resolve roots from the current file and their own project markers, so
-ESLint, Ruff and Go can select different roots inside a monorepo. Without a marker,
+CLI linting runs on `BufWritePost`; `:Lint` runs the same CLI linters manually.
+Ruff and Go linters resolve roots from the current file and their own project
+markers, so they can select different roots inside a monorepo. Without a marker,
 a named file uses its own directory, not Neovim's cwd; unnamed/non-file buffers
 fall back to cwd. Resolved paths are canonicalized to avoid duplicate symlink roots.
+ESLint diagnostics run through its LSP, not `nvim-lint`: code actions and
+`:LspEslintFixAll` apply fixes. ESLint formatting is disabled so prettierd remains
+the formatter for JS/TS and Vue.
 
 Keep project rules in the project: ESLint config and the required TypeScript/Vue
 parsers/plugins, `ecs.php`, PHPStan configuration, `.htmlhintrc` overrides, and a
-golangci-lint configuration compatible with its installed major version. Mason installs executables, not
-application dependencies or lint policies. JSONC is validated by JSON LS, not a
-strict JSON CLI linter. There is no duplicate TypeScript LSP client: vtsls handles
-JS/TS and the Vue TypeScript bridge.
+golangci-lint configuration compatible with its installed major version. Mason
+installs editor tools, not application dependencies or lint policies. Tailwind LS
+needs the project's Tailwind installation and entry point: a CSS import for v4 or
+a Tailwind config for v3. The CSS Modules TypeScript plugin affects the editor's
+language service, not `tsc`; retain the CSS module declarations required by your
+build. JSONC is validated by JSON LS, not a strict JSON CLI linter. There is no
+duplicate TypeScript LSP client: vtsls handles JS/TS and the Vue TypeScript bridge.
+
+### LSP interaction and process management
+
+| Action | Mapping/command |
+| --- | --- |
+| Hover | `K` (existing pretty_hover) |
+| Combined hover and diagnostics | `<leader>le` / `:EagleWin` |
+| Symbol navigation popup | `<leader>ln` / `:Navbuddy` |
+| Resolve an undefined Python symbol | `<leader>lI` on that symbol's diagnostic |
+| Inspect shared LSP processes | `:OhmStatus` |
+| Restart shared daemon and this session's LSP clients | `:OhmRestart` |
+
+Eagle supports keyboard and idle mouse hover; `mousemoveevent` is enabled in core
+options. It uses Neovim's native markdown renderer rather than the plugin's
+custom Treesitter renderer. Navbuddy loads before native LSP setup and attaches
+automatically to symbol-capable clients, including the first opened buffer.
+The existing outline and `K` mapping remain available.
+
+Python imports use Pyright's workspace auto-import completions. The defining
+module must be discoverable in the workspace. `nvim-lspimport` currently uses an
+obsolete Neovim completion API; its build hook generates a current-Neovim runtime
+under the installed plugin's `build/` directory and loads that runtime. Upstream
+sources remain unchanged, so normal plugin updates are not blocked by local edits.
+
+`ohm` builds its native binary on installation and starts a detached daemon shared
+by Neovim sessions. The local integration keys servers by the resolved native LSP
+project root and server name, not editor cwd or executable basename. A reference
+belongs to a live client transport: detaching one buffer, or all buffers while
+keeping the client alive, does not invalidate that connection. Client exit releases
+its reference; the daemon reclaims an unreferenced server after its grace period.
+The build uses a Go overlay to add session ownership and an atomic restart RPC
+without modifying upstream sources. `:OhmRestart` also works from a Neovim session
+that did not launch the daemon. The daemon checks actual bridge owners and closes
+admission under the same lock: existing foreign connections cause refusal, and
+new connections cannot slip in after restart is accepted. Each transport has a
+unique identity, so a late exit cannot detach its replacement. The daemon closes
+its LSP processes concurrently through ohm's bounded graceful shutdown and exits;
+the caller starts a fresh daemon and restores its managed clients. Neovim never
+signals a daemon PID. Every overlay replacement must match exactly once, so
+upstream changes fail the build explicitly. After updating from
+the older PID-based build, close the old Neovim sessions and stop their old daemon
+before starting the new configuration; an old daemon cannot perform atomic restart.
+
+`garbage-day` stops non-excluded clients after 15 minutes without editor focus.
+Focus return waits 250 ms, then re-enables the managed native LSP configurations.
+The local focus controller handles native restart semantics and cancels pending
+wakeups when focus is lost again. Its settings live in
+`configs/development/garbage_day.lua`; daemon integration lives in
+`configs/development/ohm.lua`.
 
 ### Debugging
 
@@ -326,20 +400,6 @@ project root; customize both mappings when debugging a remote filesystem.
 - `core/` and `features/` export `M.setup()` and are initialized explicitly in
   `init.lua`; mappings remain scheduled after startup.
 
-### Tooling regression checks
-
-From the repository root, run:
-
-```sh
-nvim -n --headless -u NONE -l tests/tooling.lua
-```
-
-The isolated checks exercise file-derived and tool-specific roots, standalone-file
-fallbacks, dynamic Node cwd/output/source-map scopes, browser web roots and Python
-attach mappings while switching projects under an unrelated editor cwd. They also
-cover editable per-project DAP defaults, empty input and canonical symlink identity,
-without requiring external language tools.
-
 ## Plugin List
 
 The plugins below are grouped by their main purpose to make it easier to see what each one adds to the configuration.
@@ -347,6 +407,8 @@ The plugins below are grouped by their main purpose to make it easier to see wha
 ### Libraries & dependencies
 - [nvim-lua/plenary.nvim](https://github.com/nvim-lua/plenary.nvim) – common Lua functions
 - [nvim-neotest/nvim-nio](https://github.com/nvim-neotest/nvim-nio) – async IO helpers
+- [SmiteshP/nvim-navic](https://github.com/SmiteshP/nvim-navic) – symbol-tree data for Navbuddy
+- [MunifTanjim/nui.nvim](https://github.com/MunifTanjim/nui.nvim) – popup/layout primitives for Navbuddy
 - [nvzone/volt](https://github.com/nvzone/volt) – UI framework
 - [rcarriga/nvim-notify](https://github.com/rcarriga/nvim-notify) – notification UI
 
@@ -355,10 +417,11 @@ The plugins below are grouped by their main purpose to make it easier to see wha
 - [mawkler/modicator.nvim](https://github.com/mawkler/modicator.nvim) – line-number color by mode
 - [cpea2506/relative-toggle.nvim](https://github.com/cpea2506/relative-toggle.nvim) – smart relative line numbers
 - [mawkler/hml.nvim](https://github.com/mawkler/hml.nvim) – H/M/L line markers
-- [briangwaltney/paren-hint.nvim](https://github.com/briangwaltney/paren-hint.nvim) – show the opening line of the surrounding parenthesis
+- [code-biscuits/nvim-biscuits](https://github.com/code-biscuits/nvim-biscuits) – Treesitter scope annotations on closing lines, limited to the cursor line
 - [hiphish/rainbow-delimiters.nvim](https://github.com/hiphish/rainbow-delimiters.nvim) – rainbow brackets
 - [m-demare/hlargs.nvim](https://github.com/m-demare/hlargs.nvim) – highlight function arguments
 - [Fildo7525/pretty_hover](https://github.com/Fildo7525/pretty_hover) – nicer LSP hover
+- [soulis-1256/eagle.nvim](https://github.com/soulis-1256/eagle.nvim) – combined mouse/keyboard hover and diagnostics
 - [hedyhli/outline.nvim](https://github.com/hedyhli/outline.nvim) – symbol outline
 - [j-hui/fidget.nvim](https://github.com/j-hui/fidget.nvim) – LSP progress UI
 
@@ -367,6 +430,7 @@ The plugins below are grouped by their main purpose to make it easier to see wha
 - [nvim-telescope/telescope.nvim](https://github.com/nvim-telescope/telescope.nvim) – powerful search
 - [ibhagwan/fzf-lua](https://github.com/ibhagwan/fzf-lua) – fzf-based finder
 - [folke/flash.nvim](https://github.com/folke/flash.nvim) – quick jump navigation
+- [hasansujon786/nvim-navbuddy](https://github.com/hasansujon786/nvim-navbuddy) – keyboard-driven LSP symbol navigation popup
 - [XXiaoA/atone.nvim](https://github.com/XXiaoA/atone.nvim) – undo-tree viewer with diff previews
 - [LintaoAmons/cd-project.nvim](https://github.com/LintaoAmons/cd-project.nvim) – switch project directories
 
@@ -378,6 +442,8 @@ The plugins below are grouped by their main purpose to make it easier to see wha
 
 ### LSP, completion & AI
 - [neovim/nvim-lspconfig](https://github.com/neovim/nvim-lspconfig) – configure built-in LSP
+- [ryan-WORK/ohm](https://github.com/ryan-WORK/ohm) – shared native LSP process daemon
+- [Zeioth/garbage-day.nvim](https://github.com/Zeioth/garbage-day.nvim) – reclaim inactive LSP clients after focus loss
 - [hrsh7th/nvim-cmp](https://github.com/hrsh7th/nvim-cmp) – completion engine
 - [Exafunction/windsurf.nvim](https://github.com/Exafunction/windsurf.nvim) – Codeium/Windsurf, the only AI completion provider
 - [SergioRibera/cmp-dotenv](https://github.com/SergioRibera/cmp-dotenv) – `.env` completion source
@@ -395,6 +461,7 @@ The plugins below are grouped by their main purpose to make it easier to see wha
 - [yelog/i18n.nvim](https://github.com/yelog/i18n.nvim) – i18n translation hints
 - [Kenzo-Wada/boundary.nvim](https://github.com/Kenzo-Wada/boundary.nvim) – mark React client-component usages
 - [linux-cultist/venv-selector.nvim](https://github.com/linux-cultist/venv-selector.nvim) – Python virtualenv selector
+- [stevanmilic/nvim-lspimport](https://github.com/stevanmilic/nvim-lspimport) – resolve undefined Python names with Pyright auto-imports
 
 ### Debugging
 - [mfussenegger/nvim-dap](https://github.com/mfussenegger/nvim-dap) – debug adapter protocol client

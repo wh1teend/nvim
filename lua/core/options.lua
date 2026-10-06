@@ -34,6 +34,7 @@ function M.setup()
 
 		opt = {
 			mouse = "a",
+			mousemoveevent = true,
 			number = true,
 			numberwidth = 4,
 			relativenumber = true,
