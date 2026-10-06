@@ -9,64 +9,71 @@ local lua_debug = require("configs.development.dap.lua")()
 local options = {
 	languages = {
 		lua = {
-			filetypes = { "lua" },
-			highlighting = { "lua" },
 			lsp = { { "lua_ls" } },
 			formatters = { "stylua" },
 			linters = { "luacheck" },
-            linter_options = {
-                luacheck = require("configs.development.linters.luacheck")(),
-            },
+			highlighting = { "lua" },
+			filetypes = { "lua" },
+
 			dap = {
-                {
-                    adapter = { "nlua", lua_debug.adapter },
-                    configurations = lua_debug.configurations,
-                },
+				{
+					adapter = { "nlua", lua_debug.adapter },
+					configurations = lua_debug.configurations,
+				},
+			},
+
+			linter_options = {
+				luacheck = require("configs.development.linters.luacheck")(),
 			},
 		},
+
 		vim = {
-			filetypes = { "vim" },
-			highlighting = { "vim" },
 			lsp = { { "vimls" } },
 			linters = { "vint" },
+			highlighting = { "vim" },
+			filetypes = { "vim" },
 		},
-        vimdoc = {
-            filetypes = { "vimdoc" },
-            highlighting = { "vimdoc" },
-        },
+
+		vimdoc = {
+			highlighting = { "vimdoc" },
+			filetypes = { "vimdoc" },
+		},
+
 		html = {
-			filetypes = { "html" },
-			highlighting = { "html" },
 			lsp = { { "html" } },
 			formatters = { "prettierd" },
 			linters = { "htmlhint" },
+			highlighting = { "html" },
+			filetypes = { "html" },
 		},
+
 		css = {
-			filetypes = { "css", "scss", "less" },
-			highlighting = { "css" },
 			lsp = { { "cssls" } },
+			highlighting = { "css" },
 			formatters = { "prettierd" },
+			filetypes = { "css", "scss", "less" },
 		},
+
 		json = {
-			filetypes = { "json", "jsonc" },
-			highlighting = { "json", "jsonc" },
 			lsp = { { "jsonls" } },
+			highlighting = { "json", "jsonc" },
 			formatters = { "prettierd" },
+			filetypes = { "json", "jsonc" },
 		},
+
 		prisma = {
-			filetypes = { "prisma" },
-			highlighting = { "prisma" },
 			lsp = { { "prismals" } },
+			highlighting = { "prisma" },
+			filetypes = { "prisma" },
 		},
+
 		php = {
-			filetypes = { "php" },
-			highlighting = { "php" },
-            lsp = {
-                { "intelephense", php.intelephense },
-            },
+			lsp = { { "intelephense", php.intelephense } },
 			formatters = { "easy-coding-standard" },
 			linters = { "phpstan" },
-			format_on_save = { timeout_ms = 2000 },
+			highlighting = { "php" },
+			filetypes = { "php" },
+
 			dap = {
 				{
 					"php-debug-adapter",
@@ -74,14 +81,17 @@ local options = {
 					configurations = php_debug.configurations,
 				},
 			},
+
+			format_on_save = { timeout_ms = 2000 },
 		},
+
 		python = {
-			filetypes = { "python" },
-			highlighting = { "python" },
 			lsp = { { "pyright" } },
 			formatters = { "black" },
 			linters = { "ruff" },
-			venv = { ".venv", "venv", "env" },
+			highlighting = { "python" },
+			filetypes = { "python" },
+
 			dap = {
 				{
 					"debugpy",
@@ -89,29 +99,43 @@ local options = {
 					configurations = python_debug.configurations,
 				},
 			},
+
+			venv = { ".venv", "venv", "env" },
 		},
+
 		go = {
-			filetypes = { "go" },
-			highlighting = { "go" },
 			lsp = { { "gopls" } },
 			formatters = { "goimports", "gofumpt" },
 			linters = { "golangcilint" },
+			highlighting = { "go" },
+			filetypes = { "go" },
+
 			dap = {
-				{ "delve", adapter = { "delve", go_debug.adapter }, configurations = go_debug.configurations },
+				{
+					"delve",
+					adapter = {
+						"delve",
+						go_debug.adapter,
+					},
+					configurations = go_debug.configurations,
+				},
 			},
 		},
+
 		javascript = {
-			filetypes = { "javascript", "typescript" },
-			highlighting = { "javascript", "typescript" },
 			lsp = { { "vtsls", vue.vtsls } },
 			formatters = { "prettierd" },
 			linters = { "eslint_d" },
+			highlighting = { "javascript", "typescript" },
+			filetypes = { "javascript", "typescript" },
+
 			dap = {
 				{
 					"js-debug-adapter",
 					adapter = { "pwa-node", javascript.node_adapter },
 					configurations = javascript.configurations,
 				},
+
 				{
 					"js-debug-adapter",
 					adapter = { "pwa-chrome", javascript.browser_adapter },
@@ -119,21 +143,32 @@ local options = {
 					configurations = javascript.browser_configurations,
 				},
 			},
-			tools = { i18n = { locales = { "en", "zh" }, sources = { "src/locales/{locales}.json" } } },
+
+			tools = {
+				i18n = {
+					locales = { "en", "zh" },
+					sources = { "src/locales/{locales}.json" },
+				},
+			},
 		},
+
 		react = {
-			filetypes = { "javascriptreact", "typescriptreact" },
-			highlighting = { "javascript", "tsx" },
 			formatters = { "prettierd" },
 			linters = { "eslint_d" },
-			tools = { boundary = { auto = true } },
+			highlighting = { "javascript", "tsx" },
+			filetypes = { "javascriptreact", "typescriptreact" },
+
+			tools = {
+				boundary = { auto = true },
+			},
 		},
+
 		vue = {
-			filetypes = { "vue" },
-			highlighting = { "vue" },
 			lsp = { { "vue_ls", vue.vue_ls } },
 			formatters = { "prettierd" },
 			linters = { "eslint_d" },
+			filetypes = { "vue" },
+			highlighting = { "vue" },
 		},
 	},
 
