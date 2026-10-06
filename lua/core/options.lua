@@ -1,21 +1,5 @@
 local M = {}
 
-<<<<<<< Updated upstream
-local config = {
-	g = {
-		autosave = false,
-	},
-
-	diagnostic = {
-		virtual_text = {
-			source = false,
-			format = function(diagnostic)
-				if diagnostic.source then
-					return string.format("[%s] %s", diagnostic.source, diagnostic.message)
-				end
-				return diagnostic.message
-			end,
-=======
 function M.setup()
 	require("nvchad.options")
 
@@ -31,7 +15,6 @@ function M.setup()
 	local options = {
 		g = {
 			autosave = false,
->>>>>>> Stashed changes
 		},
 
 		diagnostic = {

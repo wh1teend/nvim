@@ -11,20 +11,12 @@ function M.setup()
 		desc = "Quit all files (as :qa)",
 	})
 
-<<<<<<< Updated upstream
-utils.create_cmd("Lint", function()
-	require("lint").try_lint()
-	utils.echo({ { "Linting started for current buffer", "Title" } })
-end, {
-	desc = "Run linting on current buffer",
-})
-=======
 	utils.create_cmd("W", "w", {
 		desc = "Save file (as :w)",
 	})
 
 	utils.create_cmd("Lint", function()
-		require("lint").try_lint()
+		require("lint").try_lint(nil, { wrap_linter = require("configs.development.linters.project_cwd")() })
 		utils.echo({ { "Linting started for current buffer", "Title" } })
 	end, {
 		desc = "Run linting on current buffer",
@@ -34,8 +26,10 @@ end, {
 		local bufnr = vim.api.nvim_get_current_buf()
 
 		local managed = {}
-		for _, name in ipairs(require("language").lsp.servers) do
-			managed[name] = true
+		for _, profile in pairs(require("language").languages) do
+			for _, entry in ipairs(profile.lsp or {}) do
+				managed[entry[1]] = true
+			end
 		end
 
 		local names = {}
@@ -62,4 +56,3 @@ end, {
 end
 
 return M
->>>>>>> Stashed changes

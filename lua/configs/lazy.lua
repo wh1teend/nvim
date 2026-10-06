@@ -1,7 +1,7 @@
 return function(opts)
 	local options = {
 		defaults = { lazy = true },
-		install = { colorscheme = { "ayu_dark" } },
+		install = { colorscheme = { require("chadrc").base46.theme } },
 
 		ui = {
 			icons = {

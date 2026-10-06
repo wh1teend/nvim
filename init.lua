@@ -21,7 +21,6 @@ local plugins = {
 	},
 
 	{ import = "plugins" },
-	{ import = "plugins.tools" },
 }
 
 require("lazy").setup(plugins, options)
@@ -34,7 +33,7 @@ require("core.autocmds").setup()
 require("core.commands").setup()
 
 require("features.autosave").setup()
-require("features.showos").setup()
+require("features.show_os").setup()
 
 vim.schedule(function()
 	require("core.mappings").setup()
