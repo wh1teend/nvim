@@ -60,8 +60,8 @@ To synchronize plugins run:
   and undo-tree viewer (`atone`).
 - Debugging via `nvim-dap` and `dap-ui`: Node/browser JavaScript and TypeScript, Python, Go, PHP and Neovim Lua.
 - `.env` management (`ecolog`) and remote editing over SSH (`remote-ssh`).
-- Quality-of-life: autopairs, smart backspace, cursor-word highlight, block-context
-  virtual text, floating terminals and `wakatime` tracking.
+- Quality-of-life: autopairs, smart backspace, cursor-word highlight, Tree-sitter
+  block hints (`nvim-biscuits`), floating terminals and `wakatime` tracking.
 
 ## Structure
 
@@ -417,7 +417,7 @@ The plugins below are grouped by their main purpose to make it easier to see wha
 - [mawkler/modicator.nvim](https://github.com/mawkler/modicator.nvim) – line-number color by mode
 - [cpea2506/relative-toggle.nvim](https://github.com/cpea2506/relative-toggle.nvim) – smart relative line numbers
 - [mawkler/hml.nvim](https://github.com/mawkler/hml.nvim) – H/M/L line markers
-- [code-biscuits/nvim-biscuits](https://github.com/code-biscuits/nvim-biscuits) – Treesitter scope annotations on closing lines, limited to the cursor line
+- [code-biscuits/nvim-biscuits](https://github.com/code-biscuits/nvim-biscuits) – Tree-sitter closing-block annotations, including Lua `end`; loads on `VeryLazy`, annotates only the cursor line, and uses `min_distance = 0` to include short blocks
 - [hiphish/rainbow-delimiters.nvim](https://github.com/hiphish/rainbow-delimiters.nvim) – rainbow brackets
 - [m-demare/hlargs.nvim](https://github.com/m-demare/hlargs.nvim) – highlight function arguments
 - [Fildo7525/pretty_hover](https://github.com/Fildo7525/pretty_hover) – nicer LSP hover
@@ -436,9 +436,24 @@ The plugins below are grouped by their main purpose to make it easier to see wha
 
 ### Editing
 - [windwp/nvim-autopairs](https://github.com/windwp/nvim-autopairs) – automatic bracket and quote pairs
+- [kylechui/nvim-surround](https://github.com/kylechui/nvim-surround) – add/change/delete surrounding brackets, quotes, tags and function calls; stable 4.x releases
 - [windwp/nvim-ts-autotag](https://github.com/windwp/nvim-ts-autotag) – auto close/rename HTML & JSX tags
 - [qwavies/smart-backspace.nvim](https://github.com/qwavies/smart-backspace.nvim) – context-aware backspace
 - [sontungexpt/bim.nvim](https://github.com/sontungexpt/bim.nvim) – instant insert-mode mappings without the `timeoutlen` wait
+
+`nvim-surround` loads on `VeryLazy` and uses upstream keymaps:
+
+| Mode | Action | Keys |
+|------|--------|------|
+| Normal | Wrap a word in parentheses | `ysiw)` |
+| Normal | Wrap a word in spaced parentheses | `ysiw(` |
+| Normal | Replace parentheses with double quotes | `cs)"` |
+| Normal | Delete surrounding double quotes | `ds"` |
+| Visual | Surround the selection | `S` then the delimiter |
+| Normal | Repeat the last surround operation | `.` |
+
+General forms are `ys{motion}{delimiter}`, `ds{delimiter}` and
+`cs{old}{new}`. Opening bracket keys add inner spaces; closing bracket keys do not.
 
 ### LSP, completion & AI
 - [neovim/nvim-lspconfig](https://github.com/neovim/nvim-lspconfig) – configure built-in LSP
