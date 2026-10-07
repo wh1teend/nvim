@@ -1,21 +1,27 @@
-require("nvchad.mappings")
+local M = {}
 
-local map = require("utils").map
+function M.setup()
+	require("nvchad.mappings")
 
-map("i", "jj", "<Esc>", { desc = "Exit insert mode" })
-map("v", "ff", "<Esc>", { desc = "Exit visual mode" })
+	local map = require("utils").map
 
-map("n", "<C-t>", function()
-	require("menu").open("default")
-end, { desc = "Open menu" })
+	map("i", "jj", "<Esc>", { desc = "Exit insert mode" })
+	map("v", "ff", "<Esc>", { desc = "Exit visual mode" })
 
-map({ "n", "v" }, "<RightMouse>", function()
-	require("menu.utils").delete_old_menus()
+	map("n", "<C-t>", function()
+		require("menu").open("default")
+	end, { desc = "Open menu" })
 
-	vim.cmd.exec('"normal! \\<RightMouse>"')
+	map({ "n", "v" }, "<RightMouse>", function()
+		require("menu.utils").delete_old_menus()
 
-	local buf = vim.api.nvim_win_get_buf(vim.fn.getmousepos().winid)
-	local options = vim.bo[buf].ft == "NvimTree" and "nvimtree" or "default"
+		vim.cmd.exec('"normal! \\<RightMouse>"')
 
-	require("menu").open(options, { mouse = true })
-end, { desc = "Open context menu" })
+		local buf = vim.api.nvim_win_get_buf(vim.fn.getmousepos().winid)
+		local options = vim.bo[buf].ft == "NvimTree" and "nvimtree" or "default"
+
+		require("menu").open(options, { mouse = true })
+	end, { desc = "Open context menu" })
+end
+
+return M

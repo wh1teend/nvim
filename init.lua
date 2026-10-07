@@ -10,9 +10,9 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 
-local lazy_config = require("configs.lazy")
+local options = require("configs.lazy")()
 
-require("lazy").setup({
+local plugins = {
 	{
 		"NvChad/NvChad",
 		lazy = false,
@@ -21,19 +21,20 @@ require("lazy").setup({
 	},
 
 	{ import = "plugins" },
-	{ import = "plugins.tools" },
-}, lazy_config)
+}
+
+require("lazy").setup(plugins, options)
 
 dofile(vim.g.base46_cache .. "defaults")
 dofile(vim.g.base46_cache .. "statusline")
 
-require("core.options")
-require("core.autocmds")
-require("core.commands")
+require("core.options").setup()
+require("core.autocmds").setup()
+require("core.commands").setup()
 
-require("features.autosave")
-require("features.showos")
+require("features.autosave").setup()
+require("features.show_os").setup()
 
 vim.schedule(function()
-	require("core.mappings")
+	require("core.mappings").setup()
 end)

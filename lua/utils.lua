@@ -27,22 +27,4 @@ function M.create_cmd(name, callback, opts)
 	vim.api.nvim_create_user_command(name, callback, opts or {})
 end
 
-function M.run_build(commands)
-	local os_name = vim.uv.os_uname().sysname
-
-	local command
-	if os_name == "Windows_NT" then
-		command = commands.win
-	elseif os_name == "Darwin" then
-		command = commands.mac
-	elseif os_name == "Linux" then
-		command = commands.linux
-	else
-		M.echo({ { "Unknown OS: " .. os_name, "ErrorMsg" } })
-		return nil
-	end
-
-	return command
-end
-
 return M

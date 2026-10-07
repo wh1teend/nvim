@@ -1,50 +1,58 @@
-local utils = require("utils")
+local M = {}
 
-utils.create_cmd("Q", "q", {
-	desc = "Quit file (as :q)",
-})
+function M.setup()
+	local utils = require("utils")
 
-utils.create_cmd("Qa", "qa", {
-	desc = "Quit all files (as :qa)",
-})
+	utils.create_cmd("Q", "q", {
+		desc = "Quit file (as :q)",
+	})
 
-utils.create_cmd("W", "w", {
-	desc = "Save file (as :w)",
-})
+	utils.create_cmd("Qa", "qa", {
+		desc = "Quit all files (as :qa)",
+	})
 
-utils.create_cmd("Lint", function()
-	require("lint").try_lint()
-	utils.echo({ { "Linting started for current buffer", "Title" } })
-end, {
-	desc = "Run linting on current buffer",
-})
+	utils.create_cmd("W", "w", {
+		desc = "Save file (as :w)",
+	})
 
-utils.create_cmd("LspReindex", function()
-	local bufnr = vim.api.nvim_get_current_buf()
+	utils.create_cmd("Lint", function()
+		require("lint").try_lint(nil, { wrap_linter = require("configs.development.linters.project_cwd")() })
+		utils.echo({ { "Linting started for current buffer", "Title" } })
+	end, {
+		desc = "Run linting on current buffer",
+	})
 
-	local managed = {}
-	for _, name in ipairs(require("language").lsp.servers) do
-		managed[name] = true
-	end
+	utils.create_cmd("LspReindex", function()
+		local bufnr = vim.api.nvim_get_current_buf()
 
-	local names = {}
-	for _, client in ipairs(vim.lsp.get_clients({ bufnr = bufnr })) do
-		if managed[client.name] then
-			table.insert(names, client.name)
-			client:stop(true)
+		local managed = {}
+		for _, profile in pairs(require("language").languages) do
+			for _, entry in ipairs(profile.lsp or {}) do
+				managed[entry[1]] = true
+			end
 		end
-	end
 
-	if #names == 0 then
-		utils.echo({ { "No re-indexable LSP clients attached", "WarningMsg" } })
-		return
-	end
+		local names = {}
+		for _, client in ipairs(vim.lsp.get_clients({ bufnr = bufnr })) do
+			if managed[client.name] then
+				table.insert(names, client.name)
+				client:stop(true)
+			end
+		end
 
-	vim.defer_fn(function()
-		vim.cmd("silent! edit")
-	end, 500)
+		if #names == 0 then
+			utils.echo({ { "No re-indexable LSP clients attached", "WarningMsg" } })
+			return
+		end
 
-	utils.echo({ { "Re-indexing LSP: " .. table.concat(names, ", "), "Title" } })
-end, {
-	desc = "Restart LSP clients to re-index",
-})
+		vim.defer_fn(function()
+			vim.cmd("silent! edit")
+		end, 500)
+
+		utils.echo({ { "Re-indexing LSP: " .. table.concat(names, ", "), "Title" } })
+	end, {
+		desc = "Restart LSP clients to re-index",
+	})
+end
+
+return M

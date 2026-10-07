@@ -1,86 +1,198 @@
-local vue = require("configs.lsp.vue")
-local php = require("configs.lsp.php")
+local typescript = require("configs.development.lsp.typescript")()
+local eslint = require("configs.development.lsp.eslint")()
+local php = require("configs.development.lsp.php")()
+local javascript = require("configs.development.dap.javascript")()
+local python_debug = require("configs.development.dap.python")()
+local go_debug = require("configs.development.dap.go")()
+local php_debug = require("configs.development.dap.php")()
+local lua_debug = require("configs.development.dap.lua")()
 
-return {
-	lsp = {
-		servers = {
-			"html",
-			"cssls",
-			"pyright",
-			"jsonls",
-			"prismals",
-			"intelephense",
-			"vtsls",
-			"vue_ls",
-			"gopls",
-		},
+local options = {
+	languages = {
+		lua = {
+			lsp = { { "lua_ls" } },
+			formatters = { "stylua" },
+			linters = { "luacheck" },
+			highlighting = { "lua" },
+			filetypes = { "lua" },
 
-		configs = {
-			{
-				"vtsls",
-				vue.vtsls,
+			dap = {
+				{
+					adapter = { "nlua", lua_debug.adapter },
+					configurations = lua_debug.configurations,
+				},
 			},
 
-			{
-				"vue_ls",
-				vue.vue_ls,
-			},
-
-			{
-				"intelephense",
-				php.intelephense,
+			linter_options = {
+				luacheck = require("configs.development.linters.luacheck")(),
 			},
 		},
+
+		vim = {
+			lsp = { { "vimls" } },
+			linters = { "vint" },
+			highlighting = { "vim" },
+			filetypes = { "vim" },
+		},
+
+		vimdoc = {
+			highlighting = { "vimdoc" },
+			filetypes = { "vimdoc" },
+		},
+
+		html = {
+			lsp = { { "html" } },
+			formatters = { "prettierd" },
+			linters = { "htmlhint" },
+			highlighting = { "html" },
+			filetypes = { "html" },
+		},
+
+		css = {
+			lsp = { { "cssls" }, { "tailwindcss" } },
+			highlighting = { "css" },
+			formatters = { "prettierd" },
+			filetypes = { "css", "scss", "less" },
+		},
+
+		json = {
+			lsp = { { "jsonls" } },
+			highlighting = { "json", "jsonc" },
+			formatters = { "prettierd" },
+			filetypes = { "json", "jsonc" },
+		},
+
+		prisma = {
+			lsp = { { "prismals" } },
+			highlighting = { "prisma" },
+			filetypes = { "prisma" },
+		},
+
+		php = {
+			lsp = { { "intelephense", php.intelephense } },
+			formatters = { "easy-coding-standard" },
+			linters = { "phpstan" },
+			highlighting = { "php" },
+			filetypes = { "php" },
+
+			dap = {
+				{
+					"php-debug-adapter",
+					adapter = { "php", php_debug.adapter },
+					configurations = php_debug.configurations,
+				},
+			},
+
+			format_on_save = { timeout_ms = 2000 },
+		},
+
+		python = {
+			lsp = { { "pyright" } },
+			formatters = { "black" },
+			linters = { "ruff" },
+			highlighting = { "python" },
+			filetypes = { "python" },
+
+			dap = {
+				{
+					"debugpy",
+					adapter = { "python", python_debug.adapter },
+					configurations = python_debug.configurations,
+				},
+			},
+
+			venv = { ".venv", "venv", "env" },
+		},
+
+		go = {
+			lsp = { { "gopls" } },
+			formatters = { "goimports", "gofumpt" },
+			linters = { "golangcilint" },
+			highlighting = { "go" },
+			filetypes = { "go" },
+
+			dap = {
+				{
+					"delve",
+					adapter = {
+						"delve",
+						go_debug.adapter,
+					},
+					configurations = go_debug.configurations,
+				},
+			},
+		},
+
+		javascript = {
+			lsp = { { "vtsls", typescript }, { "eslint", eslint } },
+			lsp_plugins = { "typescript-plugin-css-modules" },
+			formatters = { "prettierd" },
+			highlighting = { "javascript", "typescript" },
+			filetypes = { "javascript", "typescript" },
+
+			dap = {
+				{
+					"js-debug-adapter",
+					adapter = { "pwa-node", javascript.node_adapter },
+					configurations = javascript.configurations,
+				},
+
+				{
+					"js-debug-adapter",
+					adapter = { "pwa-chrome", javascript.browser_adapter },
+					filetypes = { "javascriptreact", "typescriptreact", "vue", "html" },
+					configurations = javascript.browser_configurations,
+				},
+			},
+
+			tools = {
+				i18n = {
+					locales = { "en", "zh" },
+					sources = { "src/locales/{locales}.json" },
+				},
+			},
+		},
+
+		react = {
+			formatters = { "prettierd" },
+			highlighting = { "javascript", "tsx" },
+			filetypes = { "javascriptreact", "typescriptreact" },
+
+			tools = {
+				boundary = { auto = true },
+			},
+		},
+
+		vue = {
+			lsp = { { "vue_ls" } },
+			formatters = { "prettierd" },
+			filetypes = { "vue" },
+			highlighting = { "vue" },
+		},
 	},
 
-	highlighting = {
-		"vim",
-		"lua",
-		"css",
-		"php",
-		"html",
-		"json",
-		"vimdoc",
-		"python",
-		"typescript",
-		"javascript",
-		"prisma",
-		"go",
-	},
-
-	formatters = {
-		php = { "easy-coding-standard" },
-		lua = { "stylua" },
-		css = { "prettierd" },
-		html = { "prettierd" },
-		json = { "prettierd" },
-		python = { "black" },
-		javascript = { "prettierd" },
-		typescript = { "prettierd" },
-		javascriptreact = { "prettierd" },
-		typescriptreact = { "prettierd" },
-		go = { "gofumpt", "goimports" },
-	},
-
-	linters = {
-		python = { "ruff" },
-		javascript = { "eslint_d" },
-		typescript = { "eslint_d" },
-		typescriptreact = { "eslint" },
-		javascriptreact = { "eslint" },
-		go = { "golangcilint" },
-	},
-
-	debuggers = {
-		"js-debug-adapter",
-	},
-
-	mason_packages = {
+	packages = {
+		lua_ls = "lua-language-server",
+		vimls = "vim-language-server",
 		html = "html-lsp",
 		cssls = "css-lsp",
+		eslint = "eslint-lsp",
+		tailwindcss = "tailwindcss-language-server",
 		jsonls = "json-lsp",
 		prismals = "prisma-language-server",
 		vue_ls = "vue-language-server",
 		golangcilint = "golangci-lint",
 	},
+
+	mason = {
+		run_on_start = true,
+		start_delay = 2000,
+	},
+
+	format_on_save = {
+		timeout_ms = 500,
+		lsp_format = "fallback",
+	},
 }
+
+return options
